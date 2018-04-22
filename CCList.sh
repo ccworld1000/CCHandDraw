@@ -24,11 +24,8 @@
 #for f in `ls 421/*.jpg`
 for f in `ls 421`
 do
-#	echo $f
 	src="421/$f"
 	dst="421/out/$f"
 
-	#src="$f"
-	#dst="/out/$f"
 	echo "handDraw(\"$src\", \"$dst\")"
 done
