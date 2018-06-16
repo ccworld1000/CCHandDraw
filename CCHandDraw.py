@@ -24,8 +24,38 @@
 #  
 #  
 
-from PIL import Image 
+#from PIL import Image 
+from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+
+
+  
+# 指定要使用的字体和大小；/Library/Fonts/是macOS字体目录；Linux的字体目录是/usr/share/fonts/
+font = ImageFont.truetype('/Library/Fonts/Arial.ttf', 24 * 5)
+  
+# image: 图片  text：要添加的文本 font：字体
+def add_text_to_image(image, text, font=font):
+  rgba_image = image.convert('RGBA')
+  text_overlay = Image.new('RGBA', rgba_image.size, (255, 255, 255, 0))
+  image_draw = ImageDraw.Draw(text_overlay)
+  
+  text_size_x, text_size_y = image_draw.textsize(text, font=font)
+  # 设置文本文字位置
+  print(rgba_image)
+  text_xy = (rgba_image.size[0] - text_size_x, rgba_image.size[1] - text_size_y)
+  # 设置文本颜色和透明度
+  image_draw.text(text_xy, text, font=font, fill=(76, 234, 124, 180))
+  
+  image_with_text = Image.alpha_composite(rgba_image, text_overlay)
+  
+  return image_with_text
+  
+#im_before = Image.open("lena.jpg")
+#im_before.show()
+#im_after = add_text_to_image(im_before, 'WTF')
+#im_after.show()
+## im.save('im_after.jpg')
+
 
 def handDraw (srcName, dstName) :
 	asarray = np.asarray(Image.open(srcName).convert('L')).astype('float') 
@@ -57,6 +87,28 @@ def handDraw (srcName, dstName) :
 def saveImage (b, dstName) :
 	img = Image.fromarray(b.astype('uint8')) #重构图像 
 	img.save(dstName) 
+	
+	#创建绘制对象  
+	#draw = ImageDraw.Draw(img)
+	
+	#im_before.show()
+	im_after = add_text_to_image(img, 'CC Camera')
+	#im_after.save(dstName)
+	#im_after.show()
+	# im.save('im_after.jpg')
+	im_after.save(dstName+'.png')
+	
+	#draw.text((100, 50), u'CC Camera', 'fuchsia', font) 
+	#img.save(dstName+'.png')
+	
+	#im_before = Image.open(dstName)
+	##im_before.show()
+	#im_after = add_text_to_image(im_before, 'CC Camera')
+	##im_after.save(dstName)
+	##im_after.show()
+## im.save('im_after.jpg')
+	#im_after.save(dstName+'.png')
+
 	print(dstName)
 
 def main(args):
