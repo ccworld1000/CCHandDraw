@@ -88,26 +88,18 @@ def saveImage (b, dstName) :
 	img = Image.fromarray(b.astype('uint8')) #重构图像 
 	img.save(dstName) 
 	
-	#创建绘制对象  
-	#draw = ImageDraw.Draw(img)
-	
-	#im_before.show()
 	im_after = add_text_to_image(img, 'CC Camera')
 	#im_after.save(dstName)
 	#im_after.show()
 	# im.save('im_after.jpg')
 	im_after.save(dstName+'.png')
 	
+	#创建绘制对象  
+	#draw = ImageDraw.Draw(img)
+	
 	#draw.text((100, 50), u'CC Camera', 'fuchsia', font) 
 	#img.save(dstName+'.png')
 	
-	#im_before = Image.open(dstName)
-	##im_before.show()
-	#im_after = add_text_to_image(im_before, 'CC Camera')
-	##im_after.save(dstName)
-	##im_after.show()
-## im.save('im_after.jpg')
-	#im_after.save(dstName+'.png')
 
 	print(dstName)
 
