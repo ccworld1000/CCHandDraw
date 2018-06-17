@@ -77,9 +77,7 @@ def saveImage (b, dstName) :
 	img.save(dstName) 
 	
 	im_after = add_text_to_image(img, 'CC Camera')
-	#im_after.save(dstName)
 	#im_after.show()
-	# im.save('im_after.jpg')
 	im_after.save(dstName+'.png')
 	
 	#创建绘制对象  
