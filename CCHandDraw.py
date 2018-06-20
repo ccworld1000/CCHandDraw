@@ -38,12 +38,14 @@ def add_text_to_image(image, text, font=font):
   text_size_x, text_size_y = image_draw.textsize(text, font=font)
   # 设置文本文字位置
   print(rgba_image)
-  text_xy = (rgba_image.size[0] - text_size_x, rgba_image.size[1] - text_size_y)
+  text_xy = (66, rgba_image.size[1] - text_size_y)
   image_draw.text(text_xy, text, font=font, fill='#1E90FF')
   
   image_with_text = Image.alpha_composite(rgba_image, text_overlay)
   
   return image_with_text
+  
+
 
 def handDraw (srcName, dstName) :
 	asarray = np.asarray(Image.open(srcName).convert('L')).astype('float') 
