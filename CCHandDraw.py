@@ -45,7 +45,29 @@ def add_text_to_image(image, text, font=font):
   
   return image_with_text
   
+def add_watermark_to_image(image, watermark):
+  rgba_image = image.convert('RGBA')
+  rgba_watermark = watermark.convert('RGBA')
 
+  image_x, image_y = rgba_image.size
+  watermark_x, watermark_y = rgba_watermark.size
+  
+  # 缩放图片
+  scale = 8
+
+  watermark_scale = max(image_x / (scale * watermark_x * 1.0), image_y / (scale * watermark_y * 1.0))
+  new_size = (int(watermark_x * watermark_scale), int(watermark_y * watermark_scale))
+  rgba_watermark = rgba_watermark.resize(new_size, resample=Image.ANTIALIAS)
+  # 透明度
+  rgba_watermark_mask = rgba_watermark.convert("L").point(lambda x: min(x, 180))
+  rgba_watermark.putalpha(rgba_watermark_mask)
+  
+  watermark_x, watermark_y = rgba_watermark.size
+  # 水印位置
+  rgba_image.paste(rgba_watermark, (image_x - watermark_x, image_y - watermark_y), rgba_watermark_mask)
+  
+  return rgba_image
+  
 
 def handDraw (srcName, dstName) :
 	asarray = np.asarray(Image.open(srcName).convert('L')).astype('float') 
@@ -80,7 +102,12 @@ def saveImage (b, dstName) :
 	
 	im_after = add_text_to_image(img, 'CC Camera')
 	#im_after.show()
-	im_after.save(dstName+'.png')
+	#im_after.save(dstName+'.png')
+	
+	im_watermark = Image.open("watermark.jpg")
+	im_water = add_watermark_to_image(im_after, im_watermark)
+	
+	im_water.save(dstName+'.png')
 	
 	#创建绘制对象  
 	#draw = ImageDraw.Draw(img)
