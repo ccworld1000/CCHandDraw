@@ -39,7 +39,7 @@ def add_text_to_image(image, text, font=font):
   # 设置文本文字位置
   print(rgba_image)
   text_xy = (66, rgba_image.size[1] - text_size_y)
-  image_draw.text(text_xy, text, font=font, fill='#1E90FF')
+  image_draw.text(text_xy, text, font=font, fill='#00CCCC')
   
   image_with_text = Image.alpha_composite(rgba_image, text_overlay)
   
@@ -94,21 +94,24 @@ def handDraw (srcName, dstName) :
 	b = 255*(dx*unit_x + dy*unit_y + dz*unit_z) #光源归一化 
 	b = b.clip(0,255) 
 
-	saveImage (b, dstName, False)
+	saveImage (b, dstName, True)
 
 def saveImage (b, dstName, isShowWatermark) :
 	img = Image.fromarray(b.astype('uint8')) #重构图像 
 	img.save(dstName) 
 	
-	im_after = add_text_to_image(img, 'CC Camera')
+	im_after = add_text_to_image(img, 'hi CC')
+	#im_after = add_text_to_image(img, 'CC Camera')
 	#im_after.show()
 
+	
+	
 	if isShowWatermark == True :
 		im_watermark = Image.open("watermark.jpg")
 		im_water = add_watermark_to_image(im_after, im_watermark)
-		im_water.save(dstName+'.png')
-	else :
-		im_after.save(dstName+'.png')
+		
+	# fix raise IOError("cannot write mode %s as JPEG" % im.mode)
+	im_after.convert('RGB').save(dstName+'.jpg') 
 	
 
 	#创建绘制对象  
