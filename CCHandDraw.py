@@ -94,21 +94,23 @@ def handDraw (srcName, dstName) :
 	b = 255*(dx*unit_x + dy*unit_y + dz*unit_z) #光源归一化 
 	b = b.clip(0,255) 
 
-	saveImage (b, dstName)
+	saveImage (b, dstName, False)
 
-def saveImage (b, dstName) :
+def saveImage (b, dstName, isShowWatermark) :
 	img = Image.fromarray(b.astype('uint8')) #重构图像 
 	img.save(dstName) 
 	
 	im_after = add_text_to_image(img, 'CC Camera')
 	#im_after.show()
-	#im_after.save(dstName+'.png')
+
+	if isShowWatermark == True :
+		im_watermark = Image.open("watermark.jpg")
+		im_water = add_watermark_to_image(im_after, im_watermark)
+		im_water.save(dstName+'.png')
+	else :
+		im_after.save(dstName+'.png')
 	
-	im_watermark = Image.open("watermark.jpg")
-	im_water = add_watermark_to_image(im_after, im_watermark)
-	
-	im_water.save(dstName+'.png')
-	
+
 	#创建绘制对象  
 	#draw = ImageDraw.Draw(img)
 	
