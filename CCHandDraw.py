@@ -100,25 +100,16 @@ def saveImage (b, dstName, isShowWatermark) :
 	img = Image.fromarray(b.astype('uint8')) #重构图像 
 	img.save(dstName) 
 	
-	im_after = add_text_to_image(img, 'hi CC')
-	#im_after = add_text_to_image(img, 'CC Camera')
-	#im_after.show()
-
-	
+	im_after = add_text_to_image(img, 'CC Camera')
 	
 	if isShowWatermark == True :
 		im_watermark = Image.open("watermark.jpg")
 		im_water = add_watermark_to_image(im_after, im_watermark)
-		
-	# fix raise IOError("cannot write mode %s as JPEG" % im.mode)
-	im_after.convert('RGB').save(dstName+'.jpg') 
-	
-
-	#创建绘制对象  
-	#draw = ImageDraw.Draw(img)
-	
-	#draw.text((100, 50), u'CC Camera', 'fuchsia', font) 
-	#img.save(dstName+'.png')
+		# fix raise IOError("cannot write mode %s as JPEG" % im.mode)
+		im_water.convert('RGB').save(dstName+'.jpg')
+	else :
+		# fix raise IOError("cannot write mode %s as JPEG" % im.mode)
+		im_after.convert('RGB').save(dstName+'.jpg') 	 
 
 	print(dstName)
 
